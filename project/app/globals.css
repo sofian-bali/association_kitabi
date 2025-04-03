@@ -18,75 +18,86 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    /* 🎨 Couleurs principales */
+    --primary: 241 81% 60%;            /* #4F46E5 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 251 96% 86%;          /* #C4B5FD */
+    --secondary-foreground: 215 25% 27%;  /* #374151 */
+
+    --accent: 156 72% 82%;             /* #A7F3D0 */
+    --accent-foreground: 215 25% 27%;  /* #374151 */
+
+    /* Fond & Texte */
+    --background: 210 20% 98%;         /* #F9FAFB */
+    --foreground: 215 25% 27%;         /* #374151 */
+
+    /* Couleurs utilitaires */
+    --muted: 220 14% 91%;              /* #E5E7EB */
+    --muted-foreground: 220 9% 45%;    /* #6B7280 */
+
+    /* Carte */
+    --card: 0 0% 100%;                 /* #FFFFFF */
+    --card-foreground: 215 25% 27%;
+
+    /* Bordures et inputs */
+    --border: 220 14% 91%;             /* #E5E7EB */
+    --input: 220 14% 91%;
+    --ring: 241 81% 60%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;          /* #EF4444 */
+    --destructive-foreground: 210 40% 98%;
+
+    /* Radius */
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-  }
-}
+    --background: 215 25% 15%;          /* #1F2937 */
+    --foreground: 210 40% 98%;          /* #F8FAFC */
 
-@layer base {
+    --primary: 241 81% 70%;             /* plus clair en sombre */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 251 96% 76%;          /* #C4B5FD */
+    --secondary-foreground: 210 40% 98%;  /* #F8FAFC */
+
+    --accent: 156 72% 52%;
+    --accent-foreground: 210 40% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --card: 215 25% 15%;
+    --card-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 241 81% 70%;
+  }
+
   * {
     @apply border-border;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  html {
     scroll-behavior: smooth;
   }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
 }
 
-/* Optimized animations */
-.hidden-animate {
-  opacity: 0;
-  filter: blur(2px);
-  transform: translateY(50px);
-  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.show {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
+/* Animations */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -98,22 +109,25 @@
   }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
+  .hidden-animate {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateY(50px);
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-/* Performance optimizations */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  .show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
 
-/* Improved transitions */
-.transition-all {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  .transition-all {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }

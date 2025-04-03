@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import {
   ArrowDown,
   BookOpen,
@@ -35,6 +35,9 @@ interface Achievement {
 }
 
 export default function Home() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
   // Optimized intersection observer setup
   const setupIntersectionObserver = useCallback(() => {
     const observer = new IntersectionObserver(
@@ -66,19 +69,19 @@ export default function Home() {
   // Data objects for better maintainability
   const missionCards: MissionCard[] = [
     {
-      icon: <BookMarked className="h-12 w-12 text-indigo-600" />,
+      icon: <BookMarked className="h-12 w-12 text-primary" />,
       title: "Soutien Financier",
       description:
         "Fournir une aide financière aux étudiants à travers la Tunisie",
     },
     {
-      icon: <Library className="h-12 w-12 text-indigo-600" />,
+      icon: <Library className="h-12 w-12 text-primary" />,
       title: "Soutien A Tous",
       description:
         "Apporter des ressources éducatives aux communautés éloignées",
     },
     {
-      icon: <GraduationCap className="h-12 w-12 text-indigo-600" />,
+      icon: <GraduationCap className="h-12 w-12 text-primary" />,
       title: "Soutien Scolaire",
       description:
         "Offrir du tutorat et une assistance académique aux étudiants dans le besoin",
@@ -135,12 +138,12 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Navigation */}
-      <nav className="fixed w-full bg-white/90 backdrop-blur-md z-50 shadow-sm border-b border-indigo-50">
+      <nav className="fixed top-0 left-0 w-full bg-[hsl(var(--background)/0.85)] backdrop-blur-xl z-50 shadow-md border-b border-[hsl(var(--border))] transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <BookOpen className="h-8 w-8 text-indigo-600" />
-              <span className="ml-2 text-xl font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              <BookOpen className="h-8 w-8 text-[hsl(var(--primary))]" />
+              <span className="ml-2 text-2xl font-bold tracking-tight text-[hsl(var(--primary))] dark:text-[hsl(var(--secondary))]">
                 Association Kitabi
               </span>
             </div>
@@ -148,38 +151,189 @@ export default function Home() {
               <div className="ml-10 flex items-baseline space-x-4">
                 <a
                   href="#"
-                  className="hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                  className="text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] px-4 py-2 rounded-lg text-base font-medium transition-all duration-300"
                 >
                   Accueil
                 </a>
                 <a
                   href="#about"
-                  className="hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                  className="text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] px-4 py-2 rounded-lg text-base font-medium transition-all duration-300"
                 >
                   À Propos
                 </a>
                 <a
                   href="#projects"
-                  className="hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                  className="text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] px-4 py-2 rounded-lg text-base font-medium transition-all duration-300"
                 >
                   Projets
                 </a>
                 <a
                   href="#contact"
-                  className="hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                  className="text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] px-4 py-2 rounded-lg text-base font-medium transition-all duration-300"
                 >
                   Contact
                 </a>
               </div>
             </div>
+            <div className="md:hidden">
+              <button
+                onClick={() => {
+                  if (isMobileMenuOpen) {
+                    setIsClosing(true);
+                    setTimeout(() => {
+                      setIsMobileMenuOpen(false);
+                      setIsClosing(false);
+                    }, 400);
+                  } else {
+                    setIsMobileMenuOpen(true);
+                  }
+                }}
+                className="text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] focus:outline-none"
+                aria-label="Toggle menu"
+              >
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  {isMobileMenuOpen ? (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  ) : (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  )}
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        {isMobileMenuOpen && !isClosing && (
+          <div
+            className="fixed inset-0 bg-black/20 backdrop-blur-xs z-30 md:hidden transition-opacity duration-500"
+            onClick={() => {
+              setIsClosing(true);
+              setTimeout(() => {
+                setIsMobileMenuOpen(false);
+                setIsClosing(false);
+              }, 400);
+            }}
+          />
+        )}
+        <div
+          className={`md:hidden absolute top-16 left-0 w-full bg-[hsl(var(--background))] shadow-md border-t border-[hsl(var(--border))] transition-all duration-500 ease-in-out overflow-hidden z-40 ${
+            isMobileMenuOpen && !isClosing
+              ? "max-h-96 animate-fade-down"
+              : isClosing
+              ? "max-h-0 animate-fade-up"
+              : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="space-y-2 px-6 py-4">
+              <a
+                href="#"
+                onClick={() => {
+                  setIsClosing(true);
+                  setTimeout(() => {
+                    setIsMobileMenuOpen(false);
+                    setIsClosing(false);
+                  }, 400);
+                }}
+                className="text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] block px-4 py-2 rounded-lg text-base font-medium transition-all duration-300"
+              >
+                Accueil
+              </a>
+              <a
+                href="#about"
+                onClick={() => {
+                  setIsClosing(true);
+                  setTimeout(() => {
+                    setIsMobileMenuOpen(false);
+                    setIsClosing(false);
+                  }, 400);
+                }}
+                className="text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] block px-4 py-2 rounded-lg text-base font-medium transition-all duration-300"
+              >
+                À Propos
+              </a>
+              <a
+                href="#projects"
+                onClick={() => {
+                  setIsClosing(true);
+                  setTimeout(() => {
+                    setIsMobileMenuOpen(false);
+                    setIsClosing(false);
+                  }, 400);
+                }}
+                className="text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] block px-4 py-2 rounded-lg text-base font-medium transition-all duration-300"
+              >
+                Projets
+              </a>
+              <a
+                href="#contact"
+                onClick={() => {
+                  setIsClosing(true);
+                  setTimeout(() => {
+                    setIsMobileMenuOpen(false);
+                    setIsClosing(false);
+                  }, 400);
+                }}
+                className="text-[hsl(var(--foreground))] hover:text-[hsl(var(--primary))] block px-4 py-2 rounded-lg text-base font-medium transition-all duration-300"
+              >
+                Contact
+              </a>
           </div>
         </div>
       </nav>
 
+      <style jsx global>{`
+        @keyframes fade-down {
+          0% {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+ 
+        .animate-fade-down {
+          animation: fade-down 0.4s ease-in-out both;
+          will-change: opacity, transform;
+        }
+
+        @keyframes fade-up {
+          0% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+        }
+
+        .animate-fade-up {
+          animation: fade-up 0.4s ease-in-out forwards;
+          will-change: opacity, transform;
+        }
+      `}</style>
+
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center">
         <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
+          className="absolute inset-0 bg-gradient-to-r from-primary/80 to-secondary/80" 
           style={{
             backgroundImage:
               'url("https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2128&q=80")',
@@ -197,8 +351,7 @@ export default function Home() {
           </p>
           <Button
             onClick={scrollToProjects}
-            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-6 rounded-full text-lg transition-all hover:scale-105 shadow-lg hover:shadow-xl"
-          >
+            className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-primary-foreground px-8 py-6 rounded-full text-lg transition-all hover:scale-105 shadow-lg hover:shadow-xl"          >
             Découvrir Nos Initiatives
             <ArrowDown className="ml-2 h-5 w-5" />
           </Button>
